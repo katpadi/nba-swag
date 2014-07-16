@@ -24,10 +24,22 @@
       <?php do_settings_sections( 'nba-swag-settings-group' ); ?>
       <table class="form-table">
           <tr valign="top">
-          <th scope="row">Answer</th>
+          <th scope="row">Access Token</th>
             <td>
-              <input type="text" name="nba_swag_answer" value="<?php echo get_option('nba_swag_answer'); ?>" /></td>
+              <input size="40" type="text" name="nba_swag_token" value="<?php echo get_option('nba_swag_token'); ?>" /></td>
             </td>
+          </tr>
+          <tr valign="top">
+          <th scope="row">Timezone for Display</th>
+            <td>
+             <select width="40" name="page_id" id="page_id">
+             <?php
+              $timezones = Nba_Swag_Admin::timezoneList();
+              foreach( $timezones as $zone ) : ?>
+                <option value="<? echo $zone ?>"><?php echo $zone; ?></option>
+             <?php endforeach; ?>
+             </select>
+           </td>
           </tr>
       </table>
       <?php submit_button(); ?>

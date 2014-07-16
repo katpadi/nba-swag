@@ -11,7 +11,7 @@
  * @copyright 2014 Kat Padilla
  *
  * @wordpress-plugin
- * Plugin Name:       Nba_Swag
+ * Plugin Name:       NBA Swag
  * Plugin URI:        http://example.com
  * Description:       Show your favorite team's schedule and record on your site.
  * Version:           1.0.0

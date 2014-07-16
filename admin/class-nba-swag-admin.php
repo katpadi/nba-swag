@@ -202,7 +202,8 @@ class Nba_Swag_Admin {
 	// Register my NBA settings field
 	function register_field_settings() {
 		//register our settings
-		register_setting( 'nba-swag-settings-group', 'nba_swag_answer' );
+		register_setting( 'nba-swag-settings-group', 'nba_swag_token' );
+		register_setting( 'nba-swag-settings-group', 'nba_swag_timezone' );
 	}
 
 	/**
@@ -229,6 +230,44 @@ class Nba_Swag_Admin {
 	 */
 	public function filter_method_name() {
 		// @TODO: Define your filter hook callback here
+	}
+
+	/**
+	 * Return an array of timezones
+	 *
+	 * @return array
+	 */
+	public function timezoneList()
+	{
+	    $timezoneIdentifiers = DateTimeZone::listIdentifiers();
+	    $utcTime = new DateTime('now', new DateTimeZone('UTC'));
+
+	    $tempTimezones = array();
+	    foreach ($timezoneIdentifiers as $timezoneIdentifier) {
+	        $currentTimezone = new DateTimeZone($timezoneIdentifier);
+
+	        $tempTimezones[] = array(
+	            'offset' => (int)$currentTimezone->getOffset($utcTime),
+	            'identifier' => $timezoneIdentifier
+	        );
+	    }
+
+	    // Sort the array by offset,identifier ascending
+	    usort($tempTimezones, function($a, $b) {
+	    return ($a['offset'] == $b['offset'])
+	      ? strcmp($a['identifier'], $b['identifier'])
+	      : $a['offset'] - $b['offset'];
+	    });
+
+	  $timezoneList = array();
+	    foreach ($tempTimezones as $tz) {
+	    $sign = ($tz['offset'] > 0) ? '+' : '-';
+	    $offset = gmdate('H:i', abs($tz['offset']));
+	        $timezoneList[$tz['identifier']] = '(UTC ' . $sign . $offset . ') ' .
+	      $tz['identifier'];
+	    }
+
+	    return $timezoneList;
 	}
 
 }
